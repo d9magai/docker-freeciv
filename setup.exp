@@ -1,0 +1,40 @@
+#!/usr/bin/expect
+
+set timeout 5
+
+spawn env LANG=C bash setup_auth_server.sh
+expect {
+    "Do you want to continue with this script now?" { send "y\n" }
+}
+expect {
+    "server (localhost)>" { send "$env(MYSQL_PORT_3306_TCP_ADDR)\n" }
+}
+expect {
+    "port (3306)>" { send "\n" }
+}
+expect {
+    "username (Freeciv)>" { send "$env(MYSQL_ENV_MYSQL_USER)\n" }
+}
+expect {
+    "password >" { send "$env(MYSQL_ENV_MYSQL_PASSWORD)\n" }
+}
+expect {
+    "Please select which one to use." { send "$env(MYSQL_ENV_MYSQL_DATABASE)\n" }
+}
+expect {
+    "Maybe you have already attempted to create Freeciv tables?" { send "y\n" }
+}
+expect {
+    "Give name for Freeciv server authentication config file" { send "$env(FREECIV_AUTH_FILENAME)\n" }
+}
+expect {
+    "OK to overwrite?" { send "y\n" }
+}
+expect {
+    "Should password be added to config file now?" { send "y\n" }
+}
+
+expect {
+    "\\\$" { exit 0 }
+}
+
