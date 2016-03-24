@@ -12,6 +12,7 @@ ENV FREECIV_AUTH_FILENAME fc_auth.conf
 RUN yum update -y \
     && yum install -y epel-release \
     && yum install -y \
+    sudo \
     bzip2 \
     gcc-c++ \
     make \
@@ -29,9 +30,8 @@ RUN curl -sL ${FREECIV_ARCHIVE_URL} | tar xj \
     && make -s install \
     && rm -rf ../${FREECIV_BASENAME}
 
-RUN adduser freeciv
-USER freeciv
+RUN adduser freeciv -M
 ADD ${FREECIV_AUTH_FILENAME} ${FREECIV_AUTH_FILENAME}
 
-CMD /usr/local/bin/freeciv-server --auth --Database ${FREECIV_AUTH_FILENAME}
+CMD sudo -u freeciv /usr/local/bin/freeciv-server --auth --Database ${FREECIV_AUTH_FILENAME}
 
