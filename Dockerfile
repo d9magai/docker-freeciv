@@ -31,7 +31,6 @@ RUN curl -sL ${FREECIV_ARCHIVE_URL} | tar xj \
     && rm -rf ../${FREECIV_BASENAME}
 
 RUN adduser freeciv -M
-ADD ${FREECIV_AUTH_FILENAME} ${FREECIV_AUTH_FILENAME}
 
-CMD sudo -u freeciv /usr/local/bin/freeciv-server --auth --Database ${FREECIV_AUTH_FILENAME}
+CMD sudo -u freeciv /usr/local/bin/freeciv-server --auth --Database /srv/${FREECIV_AUTH_FILENAME}
 
